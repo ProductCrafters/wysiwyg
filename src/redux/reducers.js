@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux'
+import home from '../pages/Home/reducers'
 
 const START_LOADING = 'START_LOADING'
 const STOP_LOADING = 'STOP_LOADING'
@@ -16,4 +17,5 @@ const ui = (state = {}, action) => {
 
 export default combineReducers({
   ui,
+  home
 })
