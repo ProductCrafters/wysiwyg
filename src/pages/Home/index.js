@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { View, Text, TouchableOpacity } from 'react-native'
+import { Container, Header, Content, Icon } from 'native-base'
+
 import mapDispatchToProps from './actions'
 
 class Home extends Component {
@@ -9,12 +10,9 @@ class Home extends Component {
     const { navigation, sayHello, hello } = this.props
 
     return (
-      <View>
-        <TouchableOpacity onPress={sayHello}>
-          <Text>{navigation.state.routeName}</Text>
-        </TouchableOpacity>
-        {hello && <Text>Hello there</Text>}
-      </View>
+      <Container>
+        <Icon name="md-pizza" />
+      </Container>
     )
   }
 }
