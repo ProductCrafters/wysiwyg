@@ -5,7 +5,10 @@
   "scripts": {
     "start": "react-native start --reset-cache",
     "start-cli": "node node_modules/react-native/local-cli/cli.js start",
-    "dev": "react-native run-ios --simulator='iPhone 8'",
+    "dev": "npm run ios",
+    "ios": "react-native run-ios --simulator='iPhone 8'",
+    "android": "react-native run-android",
+    "clean": "watchman watch-del-all && rm -rf $TMPDIR/react-* && rm -rf $TMPDIR/metro* && rm -rf $TMPDIR/haste-*",
     "test": "jest"
   },
   "dependencies": {

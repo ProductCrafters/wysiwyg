@@ -7,11 +7,8 @@ import mapDispatchToProps from './actions'
 
 class Home extends Component {
   render() {
-    const { navigation, sayHello, hello } = this.props
-
     return (
       <Container>
-        <Icon name="md-pizza" />
         <Button>
           <Text>Click Me!</Text>
         </Button>
