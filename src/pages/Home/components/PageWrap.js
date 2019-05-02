@@ -61,6 +61,7 @@ class PageWrap extends React.Component {
           <React.Fragment>
             <GridComponent width={this.state.width} height={this.state.height} grid={grid} />
             <CapComponent
+              onSelect={this.props.openSelectorModal}
               areaWidth={this.state.width}
               areaHeight={this.state.height}
               from={{ x: 1, y: 1 }}

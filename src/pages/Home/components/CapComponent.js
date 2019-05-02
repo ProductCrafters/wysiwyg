@@ -1,5 +1,5 @@
 import React from 'react'
-import { View } from 'react-native'
+import { View, TouchableWithoutFeedback } from 'react-native'
 
 import withGridSnap from '../../../utils/withGridSnap'
 import withEvent from '../../../utils/withEvents'
@@ -39,9 +39,11 @@ class CapComponent extends React.Component {
   render() {
     const { top, left, width, height } = this.state
     return (
-      <View
-        style={{ ...this.props.style, ...{ top, left, width, height }, backgroundColor: 'red' }}
-      />
+      <TouchableWithoutFeedback onPress={this.props.onSelect}>
+        <View
+          style={{ ...this.props.style, ...{ top, left, width, height }, backgroundColor: 'red' }}
+        />
+      </TouchableWithoutFeedback>
     )
   }
 }

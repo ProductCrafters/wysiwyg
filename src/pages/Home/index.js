@@ -7,10 +7,14 @@ import mapDispatchToProps from './actions'
 import PageWrap from './components/PageWrap'
 
 class Home extends Component {
+  openComponentsSelectorModal = () => {
+    this.props.navigation.navigate('ModalComponentsSelector')
+  }
+
   render() {
     return (
       <Container>
-        <PageWrap />
+        <PageWrap openSelectorModal={this.openComponentsSelectorModal} />
       </Container>
     )
   }

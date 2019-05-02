@@ -1,6 +1,7 @@
 import { createStackNavigator } from 'react-navigation'
 
 import routes, { Pages } from './routes'
+import ModalComponentsSelector from './pages/ModalComponentsSelector'
 
 const MainStack = createStackNavigator(
   {
@@ -15,6 +16,9 @@ const RootNavigator = createStackNavigator(
   {
     Main: {
       screen: MainStack,
+    },
+    ModalComponentsSelector: {
+      screen: ModalComponentsSelector,
     },
   },
   {
