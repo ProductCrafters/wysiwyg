@@ -1,22 +1,34 @@
 import React from 'react'
-import { View, Text } from 'react-native'
-import { Button, Container } from 'native-base'
+import { View } from 'react-native'
+import { Button, Container, Header, Right, Text } from 'native-base'
+
+import ComponentSelector from './components/ComponentSelector'
 
 class ModalComponentsSelector extends React.Component {
+  handleSelect = (...props) => {
+    console.log('Press', props)
+  }
+
   render() {
     return (
-      <Container
+      <View
         style={{
           flex: 1,
           backgroundColor: 'white',
-          margin: 30,
-          padding: 20,
+          margin: 20,
         }}
       >
-        <Button light onPress={() => this.props.navigation.goBack()}>
-          <Text>Dismiss</Text>
-        </Button>
-      </Container>
+        <Header>
+          <Right>
+            <Button transparent onPress={() => this.props.navigation.goBack()}>
+              <Text>Cancel</Text>
+            </Button>
+          </Right>
+        </Header>
+        <Container style={{ padding: 20 }}>
+          <ComponentSelector onSelect={this.handleSelect} />
+        </Container>
+      </View>
     )
   }
 }
