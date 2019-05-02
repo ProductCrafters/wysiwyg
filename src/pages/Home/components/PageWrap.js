@@ -6,10 +6,7 @@ import GridComponent from './GridComponent'
 import CapComponent from './CapComponent'
 import { events } from '../../../utils/withEvents'
 
-const EVENT_MOVE_NEW = 'new_interact'
-const EVENT_MOVE_BEGIN = 'start_interact'
-const EVENT_MOVE = 'interact'
-const EVENT_MOVE_END = 'end_interact'
+import { EVENT_MOVE_NEW, EVENT_MOVE_BEGIN, EVENT_MOVE, EVENT_MOVE_END } from '../../../constants'
 
 class PageWrap extends React.Component {
   constructor(props) {
@@ -33,7 +30,6 @@ class PageWrap extends React.Component {
         }
       },
       onPanResponderMove: (evt, gestureState) => {
-        console.log(gestureState)
         events.emit(EVENT_MOVE, gestureState)
       },
       onPanResponderRelease: (evt, gestureState) => {
@@ -68,7 +64,7 @@ class PageWrap extends React.Component {
               areaWidth={this.state.width}
               areaHeight={this.state.height}
               from={{ x: 1, y: 1 }}
-              to={{ x: 5, y: 5 }}
+              to={{ x: 12, y: 5 }}
             />
           </React.Fragment>
         ) : null}
