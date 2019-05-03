@@ -5,8 +5,9 @@ import { Button, Container, Header, Right, Text } from 'native-base'
 import ComponentSelector from './components/ComponentSelector'
 
 class ModalComponentsSelector extends React.Component {
-  handleSelect = (...props) => {
-    console.log('Press', props)
+  handleSelect = (componentId) => {
+    console.log(componentId)
+    this.props.navigation.goBack()
   }
 
   render() {

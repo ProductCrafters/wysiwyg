@@ -6,42 +6,50 @@ import { Text } from 'native-base'
 import { Button, Card, Input } from '../../../components'
 import SelectorItem from './SelectorItem'
 
-const components = {
-  Text: {
+const components = [
+  {
+    id: 'Text',
     component: (props) => <Text>{props.text}</Text>,
     props: {
       text: 'Simple text',
     },
   },
-  Button: {
+  {
+    id: 'Button',
     component: Button,
     props: {
       label: 'button',
       light: true,
     },
   },
-  Card: {
+  {
+    id: 'Card',
     component: Card,
     props: {
       text: 'Some card text',
     },
   },
-  Input: {
+  {
+    id: 'Input',
     component: Input,
     props: {
       label: 'Example',
     },
   },
-}
+]
 
 class ComponentSelector extends React.Component {
+  handleSelectItem = (itemId) => () => {
+    this.props.onSelect(itemId)
+  }
+
   render() {
     return (
       <ScrollView style={{ flex: 1 }}>
-        {_.map(components, (i, key) => {
+        {_.map(components, (i) => {
           const Component = i.component
           return (
-            <SelectorItem key={key}>
+            <SelectorItem key={i.id} onSelect={this.handleSelectItem(i.id)}>
               <Component {...i.props} />
             </SelectorItem>
           )
