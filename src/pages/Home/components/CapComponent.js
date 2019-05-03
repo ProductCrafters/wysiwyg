@@ -1,10 +1,15 @@
 import React from 'react'
-import { View, TouchableWithoutFeedback } from 'react-native'
+import { View, TouchableWithoutFeedback, StyleSheet } from 'react-native'
 
 import withGridSnap from '../../../utils/withGridSnap'
 import withEvent from '../../../utils/withEvents'
 
 import { EVENT_MOVE_NEW, EVENT_MOVE, EVENT_MOVE_END } from '../../../constants'
+
+const style = {
+  borderColor: 'red',
+  borderWidth: StyleSheet.hairlineWidth,
+}
 
 class CapComponent extends React.Component {
   constructor(props) {
@@ -21,6 +26,7 @@ class CapComponent extends React.Component {
   onMoveStart = ({ x0, y0 }) => {
     this.props.events.addListener(EVENT_MOVE, ({ dx, dy }) => this.onMove({ x0, y0, dx, dy }))
     this.props.events.addListener(EVENT_MOVE_END, () => {
+      this.props.onSelectRect()
       this.props.events.removeAllListeners(EVENT_MOVE)
       this.props.events.removeAllListeners(EVENT_MOVE_END)
     })
@@ -39,9 +45,13 @@ class CapComponent extends React.Component {
   render() {
     const { top, left, width, height } = this.state
     return (
-      <TouchableWithoutFeedback onPress={this.props.onSelect}>
+      <TouchableWithoutFeedback onPress={this.props.onSelectComponent}>
         <View
-          style={{ ...this.props.style, ...{ top, left, width, height }, backgroundColor: 'red' }}
+          style={{
+            ...style,
+            ...this.props.style,
+            ...{ top, left, width, height },
+          }}
         />
       </TouchableWithoutFeedback>
     )

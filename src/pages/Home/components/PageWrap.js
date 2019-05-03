@@ -9,9 +9,21 @@ import PreviewContainer from './PreviewContainer'
 import { EVENT_MOVE_NEW, EVENT_MOVE_BEGIN, EVENT_MOVE, EVENT_MOVE_END } from '../../../constants'
 
 const renderConfig = [
-  { id: 'component_1', type: 'Input', from: { x: 1, y: 10 }, to: { x: 14, y: 12 }, label: 'Username' },
-  { id: 'component_2', type: 'Input', from: { x: 14, y: 10 }, to: { x: 28, y: 12 }, label: 'Password' },
-  { id: 'component_3', type: 'Button', from: { x: 2, y: 15}, to: { x: 20, y: 17 }, label: 'Save' },
+  {
+    id: 'component_1',
+    type: 'Input',
+    from: { x: 1, y: 10 },
+    to: { x: 14, y: 12 },
+    label: 'Username',
+  },
+  {
+    id: 'component_2',
+    type: 'Input',
+    from: { x: 14, y: 10 },
+    to: { x: 28, y: 12 },
+    label: 'Password',
+  },
+  { id: 'component_3', type: 'Button', from: { x: 2, y: 15 }, to: { x: 20, y: 17 }, label: 'Save' },
 ]
 
 class PageWrap extends React.Component {
@@ -53,6 +65,9 @@ class PageWrap extends React.Component {
   }) => {
     this.setState({ width, height })
   }
+  handleAddComponent = (...props) => {
+    console.log(props)
+  }
 
   render() {
     const { width, height } = this.state
@@ -72,7 +87,8 @@ class PageWrap extends React.Component {
               areaHeight={this.state.height}
             />
             <CapComponent
-              onSelect={this.props.openSelectorModal}
+              onSelectRect={this.props.openSelectorModal}
+              onSelectComponent={this.handleAddComponent}
               areaWidth={this.state.width}
               areaHeight={this.state.height}
               from={{ x: 1, y: 1 }}
