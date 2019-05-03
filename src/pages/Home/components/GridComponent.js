@@ -18,7 +18,7 @@ class GridComponent extends React.Component {
             x2={width}
             y2={h}
             key={`line_${h}_${width}`}
-            stroke="blue"
+            stroke='rgba(0, 0, 0, 0.2)'
             strokeWidth={1.6}
             strokeDasharray={`${pointSize} ${unitWidth - pointSize}`}
             strokeDashoffset={0.4}

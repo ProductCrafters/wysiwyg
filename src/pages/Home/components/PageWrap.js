@@ -5,8 +5,12 @@ import { grid } from '../../../config'
 import GridComponent from './GridComponent'
 import CapComponent from './CapComponent'
 import { events } from '../../../utils/withEvents'
-
+import PreviewContainer from './PreviewContainer'
 import { EVENT_MOVE_NEW, EVENT_MOVE_BEGIN, EVENT_MOVE, EVENT_MOVE_END } from '../../../constants'
+
+const renderConfig = [
+  { id: 'component_1', type: 'Input', from: { x: 1, y: 6 }, to: { x: 20, y: 8 }, label: 'Test' },
+]
 
 class PageWrap extends React.Component {
   constructor(props) {
@@ -60,6 +64,11 @@ class PageWrap extends React.Component {
         {width && height ? (
           <React.Fragment>
             <GridComponent width={this.state.width} height={this.state.height} grid={grid} />
+            <PreviewContainer
+              config={renderConfig}
+              areaWidth={this.state.width}
+              areaHeight={this.state.height}
+            />
             <CapComponent
               onSelect={this.props.openSelectorModal}
               areaWidth={this.state.width}
