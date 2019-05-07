@@ -75,6 +75,18 @@ class ComponentContainer extends React.Component {
       this.style = { ...this.style, ...styleDiff }
     }
 
+    const { top, left, width, height } = this.style
+    const from = {
+      x: Math.round(left / gridWidth),
+      y: Math.round(top / gridHeight),
+    }
+
+    const to = {
+      x: Math.round((left + width) / gridWidth),
+      y: Math.round((top + height) / gridHeight),
+    }
+
+    this.props.onResize({ from, to })
     const { events } = this.props
     this.interactionType = null
     events.removeAllListeners(EVENT_MOVE)

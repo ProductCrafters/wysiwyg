@@ -8,24 +8,6 @@ import { events } from '../../../utils/withEvents'
 import PreviewContainer from './PreviewContainer'
 import { EVENT_MOVE_NEW, EVENT_MOVE_BEGIN, EVENT_MOVE, EVENT_MOVE_END } from '../../../constants'
 
-const renderConfig = [
-  {
-    id: 'component_1',
-    type: 'Input',
-    from: { x: 1, y: 10 },
-    to: { x: 14, y: 14 },
-    label: 'Username',
-  },
-  {
-    id: 'component_2',
-    type: 'Input',
-    from: { x: 14, y: 10 },
-    to: { x: 28, y: 14 },
-    label: 'Password',
-  },
-  { id: 'component_3', type: 'Button', from: { x: 2, y: 15 }, to: { x: 20, y: 17 }, label: 'Save' },
-]
-
 class PageWrap extends React.Component {
   constructor(props) {
     super(props)
@@ -75,6 +57,22 @@ class PageWrap extends React.Component {
     this.setState({ selectedElement: id })
   }
 
+  handleResize = ({ id, from, to }) => {
+    let hasChanges = false
+    const newConfig = this.props.renderConfig.map((i) => {
+      if (i.id !== id) {
+        return i
+      }
+
+      hasChanges = true
+      return { ...i, from, to }
+    })
+
+    if (hasChanges) {
+      this.props.onUpdate(newConfig)
+    }
+  }
+
   render() {
     const { width, height } = this.state
 
@@ -89,8 +87,9 @@ class PageWrap extends React.Component {
             <GridComponent width={this.state.width} height={this.state.height} grid={grid} />
             <PreviewContainer
               onSelectElement={this.handleSelectElement}
+              onResize={this.handleResize}
               selectedEelment={this.state.selectedElement}
-              config={renderConfig}
+              config={this.props.renderConfig}
               areaWidth={this.state.width}
               areaHeight={this.state.height}
             />

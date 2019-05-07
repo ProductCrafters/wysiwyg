@@ -33,6 +33,7 @@ class PreviewContainer extends React.Component {
               key={i.id}
               {...i}
               selectedElement={this.props.selectedElement}
+              onResize={(props) => this.props.onResize({...props, id: i.id})}
               onSelect={onSelectElement}
               areaWidth={areaWidth}
               areaHeight={areaHeight}
