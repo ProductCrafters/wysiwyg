@@ -22,7 +22,7 @@ const getComponentByType = (type) => {
 
 class PreviewContainer extends React.Component {
   render() {
-    const { config = [], areaWidth, areaHeight } = this.props
+    const { config = [], areaWidth, areaHeight, onSelectElement } = this.props
 
     return (
       <React.Fragment>
@@ -32,6 +32,8 @@ class PreviewContainer extends React.Component {
             <ComponentContainer
               key={i.id}
               {...i}
+              selectedElement={this.props.selectedElement}
+              onSelect={onSelectElement}
               areaWidth={areaWidth}
               areaHeight={areaHeight}
               Component={Component}

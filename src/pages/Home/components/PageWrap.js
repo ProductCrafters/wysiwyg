@@ -13,14 +13,14 @@ const renderConfig = [
     id: 'component_1',
     type: 'Input',
     from: { x: 1, y: 10 },
-    to: { x: 14, y: 12 },
+    to: { x: 14, y: 14 },
     label: 'Username',
   },
   {
     id: 'component_2',
     type: 'Input',
     from: { x: 14, y: 10 },
-    to: { x: 28, y: 12 },
+    to: { x: 28, y: 14 },
     label: 'Password',
   },
   { id: 'component_3', type: 'Button', from: { x: 2, y: 15 }, to: { x: 20, y: 17 }, label: 'Save' },
@@ -32,6 +32,7 @@ class PageWrap extends React.Component {
     this.state = {
       width: 0,
       height: 0,
+      selectedElement: null,
     }
 
     this.panResponder = PanResponder.create({
@@ -69,6 +70,11 @@ class PageWrap extends React.Component {
     console.log(props)
   }
 
+  handleSelectElement = (element) => {
+    const { id } = element
+    this.setState({ selectedElement: id })
+  }
+
   render() {
     const { width, height } = this.state
 
@@ -82,6 +88,8 @@ class PageWrap extends React.Component {
           <React.Fragment>
             <GridComponent width={this.state.width} height={this.state.height} grid={grid} />
             <PreviewContainer
+              onSelectElement={this.handleSelectElement}
+              selectedEelment={this.state.selectedElement}
               config={renderConfig}
               areaWidth={this.state.width}
               areaHeight={this.state.height}
