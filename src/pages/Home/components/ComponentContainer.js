@@ -16,18 +16,49 @@ class ComponentContainer extends React.Component {
     super(props)
     this.state = {
       selected: false,
+      style: props.style,
     }
+    this.style = props.style
   }
-
-  onListeningBegin = ({ dx, dy, moveX, moveY, vx, vy, x0, y0 }) => {
-    console.log(dx, dy, moveX, moveY, vx, vy, x0, y0, '--')
+  // dx, dy, moveX, moveY, vx, vy, x0, y0
+  onListeningBegin = () => {
     const { events } = this.props
     events.addListener(EVENT_MOVE, this.onMove)
     events.addListener(EVENT_MOVE_END, this.onMoveEnd)
   }
 
   onMove = ({ dx, dy }) => {
-    console.log(this.interactionType, dx, dy)
+    const {
+      style: { top, left, height, width },
+    } = this.state
+    // skip invalid interactions
+    if (!['left', 'top', 'right', 'bottom', 'center'].includes(this.interactionType)) {
+      return false
+    }
+
+    if (this.interactionType === 'left') {
+      if (dx < this.style.width) {
+        this.setState({
+          style: { ...this.state.style, left: this.style.left + dx, width: this.style.width - dx },
+        })
+      }
+    } else if (this.interactionType === 'right') {
+      if (this.style.width + dx > 0) {
+        this.setState({ style: { ...this.state.style, width: this.style.width + dx } })
+      }
+    } else if (this.interactionType === 'top') {
+      if (dy < this.style.height) {
+        this.setState({
+          style: { ...this.state.style, top: this.style.top + dy, height: this.style.height - dy },
+        })
+      }
+    } else if (this.interactionType === 'bottom') {
+      console.log(dy)
+      if (this.style.height + dy > 0) {
+        this.setState({ style: { ...this.state.style, height: this.style.height + dy } })
+      }
+    } else if (this.interactionType === 'center') {
+    }
   }
 
   onMoveEnd = () => {
@@ -53,13 +84,11 @@ class ComponentContainer extends React.Component {
   }
 
   render() {
-    let { Component, style, ...props } = this.props
-    const { selected } = this.state
-    if (selected) {
-      style = { ...style, ...styleSelected }
-    }
+    let { Component, ...props } = this.props
+    let { selected, style } = this.state
+    const st = selected ? style : { ...style, ...styleSelected }
     return (
-      <View style={style}>
+      <View style={st}>
         <Component {...props} />
         <TouchableWithoutFeedback onPress={this.handleSelect}>
           <View style={StyleSheet.absoluteFill} />
