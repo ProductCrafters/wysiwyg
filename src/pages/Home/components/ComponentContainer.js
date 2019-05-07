@@ -27,41 +27,46 @@ class ComponentContainer extends React.Component {
     events.addListener(EVENT_MOVE_END, this.onMoveEnd)
   }
 
+  getNewPosition = (dx, dy) => {
+    if (this.interactionType === 'left') {
+      if (dx < this.style.width) {
+        return { left: this.style.left + dx, width: this.style.width - dx }
+      }
+    } else if (this.interactionType === 'right') {
+      if (this.style.width + dx > 0) {
+        return { width: this.style.width + dx }
+      }
+    } else if (this.interactionType === 'top') {
+      if (dy < this.style.height) {
+        return { top: this.style.top + dy, height: this.style.height - dy }
+      }
+    } else if (this.interactionType === 'bottom') {
+      if (this.style.height + dy > 0) {
+        return { height: this.style.height + dy }
+      }
+    } else if (this.interactionType === 'center') {
+      return { top: this.style.top + dy, left: this.style.left + dx }
+    }
+
+    return null
+  }
+
   onMove = ({ dx, dy }) => {
-    const {
-      style: { top, left, height, width },
-    } = this.state
     // skip invalid interactions
     if (!['left', 'top', 'right', 'bottom', 'center'].includes(this.interactionType)) {
       return false
     }
 
-    if (this.interactionType === 'left') {
-      if (dx < this.style.width) {
-        this.setState({
-          style: { ...this.state.style, left: this.style.left + dx, width: this.style.width - dx },
-        })
-      }
-    } else if (this.interactionType === 'right') {
-      if (this.style.width + dx > 0) {
-        this.setState({ style: { ...this.state.style, width: this.style.width + dx } })
-      }
-    } else if (this.interactionType === 'top') {
-      if (dy < this.style.height) {
-        this.setState({
-          style: { ...this.state.style, top: this.style.top + dy, height: this.style.height - dy },
-        })
-      }
-    } else if (this.interactionType === 'bottom') {
-      console.log(dy)
-      if (this.style.height + dy > 0) {
-        this.setState({ style: { ...this.state.style, height: this.style.height + dy } })
-      }
-    } else if (this.interactionType === 'center') {
-    }
+    const styleDiff = this.getNewPosition(dx, dy) || {}
+    this.setState({ style: { ...this.style, ...styleDiff } })
   }
 
-  onMoveEnd = () => {
+  onMoveEnd = ({ dx, dy }) => {
+    if (['left', 'top', 'right', 'bottom', 'center'].includes(this.interactionType)) {
+      const styleDiff = this.getNewPosition(dx, dy) || {}
+      this.style = { ...this.style, ...styleDiff }
+    }
+
     const { events } = this.props
     this.interactionType = null
     events.removeAllListeners(EVENT_MOVE)
@@ -86,9 +91,9 @@ class ComponentContainer extends React.Component {
   render() {
     let { Component, ...props } = this.props
     let { selected, style } = this.state
-    const st = selected ? style : { ...style, ...styleSelected }
+    const itemStyle = selected ? { ...style, ...styleSelected } : style
     return (
-      <View style={st}>
+      <View style={itemStyle}>
         <Component {...props} />
         <TouchableWithoutFeedback onPress={this.handleSelect}>
           <View style={StyleSheet.absoluteFill} />
