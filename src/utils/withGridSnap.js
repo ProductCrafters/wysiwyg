@@ -3,11 +3,13 @@ import React from 'react'
 import { grid } from '../config'
 
 const { width, height, paddingLeft, paddingRight, paddingTop } = grid
+const gridWidth = width
+const gridHeight = height
 
 const defaultPoint = { x: 0, y: 0 }
 const getCoordinates = (areaWidth, areaHeight, from = defaultPoint, to = defaultPoint) => {
   const realWidth = areaWidth - (paddingLeft + paddingRight)
-  const unitWidth = realWidth / width
+  const unitWidth = realWidth / gridWidth
 
   const fromX = from.x * unitWidth + paddingLeft
   const toX = to.x * unitWidth + paddingLeft
@@ -25,7 +27,7 @@ const withGridSnap = (WrappedComponent) => {
 
     snapGrid = (x0, y0, x1, y1) => {
       const realWidth = this.props.areaWidth - (paddingLeft + paddingRight)
-      const unitWidth = realWidth / width
+      const unitWidth = realWidth / gridWidth
       const fromX = Math.round((x0 - paddingLeft) / unitWidth) * unitWidth
       const toX = Math.round((x1 - paddingLeft) / unitWidth) * unitWidth
       const fromY = Math.round((y0 - paddingTop) / height) * height
@@ -41,6 +43,8 @@ const withGridSnap = (WrappedComponent) => {
 
     render() {
       const { areaWidth, areaHeight, from, to } = this.props
+      const realWidth = this.props.areaWidth - (paddingLeft + paddingRight)
+      const unitWidth = realWidth / gridWidth
       const { fromX, fromY, toX, toY } = getCoordinates(areaWidth, areaHeight, from, to)
       const top = Math.min(fromY, toY)
       const height = Math.abs(fromY - toY)
@@ -52,6 +56,8 @@ const withGridSnap = (WrappedComponent) => {
           style={{ top, left, height, width, position: 'absolute' }}
           calcPosition={this.calcPosition}
           snapGrid={this.snapGrid}
+          gridWidth={unitWidth}
+          gridHeight={gridHeight}
         />
       )
     }

@@ -57,11 +57,19 @@ class ComponentContainer extends React.Component {
       return false
     }
 
+    const { gridHeight, gridWidth } = this.props
+    dx = Math.round(dx / gridWidth) * gridWidth
+    dy = Math.round(dy / gridHeight) * gridHeight
+
     const styleDiff = this.getNewPosition(dx, dy) || {}
     this.setState({ style: { ...this.style, ...styleDiff } })
   }
 
   onMoveEnd = ({ dx, dy }) => {
+    const { gridHeight, gridWidth } = this.props
+    dx = Math.round(dx / gridWidth) * gridWidth
+    dy = Math.round(dy / gridHeight) * gridHeight
+
     if (['left', 'top', 'right', 'bottom', 'center'].includes(this.interactionType)) {
       const styleDiff = this.getNewPosition(dx, dy) || {}
       this.style = { ...this.style, ...styleDiff }

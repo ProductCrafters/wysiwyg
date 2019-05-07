@@ -13,7 +13,6 @@ export default (props) => {
   const { type, onPress } = props
   let style = {
     position: 'absolute',
-    ...styleSelected,
   }
 
   switch (type) {
