@@ -39,8 +39,8 @@ const components = [
 ]
 
 class ComponentSelector extends React.Component {
-  handleSelectItem = (itemId) => () => {
-    this.props.onSelect(itemId)
+  handleSelectItem = (item) => () => {
+    this.props.onSelect(item)
   }
 
   render() {
@@ -49,7 +49,7 @@ class ComponentSelector extends React.Component {
         {_.map(components, (i) => {
           const Component = i.component
           return (
-            <SelectorItem key={i.id} onSelect={this.handleSelectItem(i.id)}>
+            <SelectorItem key={i.id} onSelect={this.handleSelectItem(i)}>
               <Component {...i.props} />
             </SelectorItem>
           )

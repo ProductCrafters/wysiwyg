@@ -26,7 +26,9 @@ class CapComponent extends React.Component {
   onMoveStart = ({ x0, y0 }) => {
     this.props.events.addListener(EVENT_MOVE, ({ dx, dy }) => this.onMove({ x0, y0, dx, dy }))
     this.props.events.addListener(EVENT_MOVE_END, () => {
-      this.props.onSelectRect()
+      const { top, left, width, height } = this.state
+      const coordinates = this.props.snapGrid(left, top, left + width, top + height)
+      this.props.onSelectRect(coordinates)
       this.props.events.removeAllListeners(EVENT_MOVE)
       this.props.events.removeAllListeners(EVENT_MOVE_END)
     })

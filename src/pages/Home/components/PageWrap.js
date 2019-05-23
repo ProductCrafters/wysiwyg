@@ -1,4 +1,5 @@
 import React from 'react'
+import _ from 'lodash'
 import { View, StyleSheet, Text, PanResponder } from 'react-native'
 
 import { grid } from '../../../config'
@@ -7,6 +8,7 @@ import CapComponent from './CapComponent'
 import { events } from '../../../utils/withEvents'
 import PreviewContainer from './PreviewContainer'
 import { EVENT_MOVE_NEW, EVENT_MOVE_BEGIN, EVENT_MOVE, EVENT_MOVE_END } from '../../../constants'
+import coordinatesToUnits from '../../../utils/coordinatesToUnits'
 
 class PageWrap extends React.Component {
   constructor(props) {
@@ -41,6 +43,11 @@ class PageWrap extends React.Component {
     })
   }
 
+  getUniqId = () => {
+    const time = new Date().getTime().toString()
+    return _.uniqueId(`auto_${time}`)
+  }
+
   handleLayout = ({
     nativeEvent: {
       layout: { width, height },
@@ -73,6 +80,23 @@ class PageWrap extends React.Component {
     }
   }
 
+  handleSelectZone = ({ x0, y0, x1, y1 }) => {
+    this.props.navigation.navigate('ModalComponentsSelector', {
+      onSelect: (element) => {
+        const { id, props } = element
+
+        const data = {
+          ...props,
+          type: id,
+          id: this.getUniqId(),
+          ...coordinatesToUnits(x0, y0, x1, y1, this.state.width),
+        }
+
+        this.props.onUpdate([...this.props.renderConfig, data])
+      },
+    })
+  }
+
   render() {
     const { width, height } = this.state
 
@@ -94,7 +118,7 @@ class PageWrap extends React.Component {
               areaHeight={this.state.height}
             />
             <CapComponent
-              onSelectRect={this.props.openSelectorModal}
+              onSelectRect={this.handleSelectZone}
               onSelectComponent={this.handleAddComponent}
               areaWidth={this.state.width}
               areaHeight={this.state.height}

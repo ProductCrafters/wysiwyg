@@ -58,20 +58,17 @@ class Home extends Component {
     })
   }
 
-  openComponentsSelectorModal = () => {
-    this.props.navigation.navigate('ModalComponentsSelector')
-  }
-
   handleUpdateConfig = (renderConfig) => {
     this.setState({ renderConfig })
     setData(renderConfig)
   }
 
   render() {
+    // setData(defaultConfig)
     return (
       <Container>
         <PageWrap
-          openSelectorModal={this.openComponentsSelectorModal}
+          navigation={this.props.navigation}
           onUpdate={this.handleUpdateConfig}
           renderConfig={this.state.renderConfig}
         />
