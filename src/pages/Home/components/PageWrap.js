@@ -1,6 +1,6 @@
 import React from 'react'
 import _ from 'lodash'
-import { View, StyleSheet, Text, PanResponder } from 'react-native'
+import { View, StyleSheet, Text, PanResponder, TouchableWithoutFeedback } from 'react-native'
 
 import { grid } from '../../../config'
 import GridComponent from './GridComponent'
@@ -94,7 +94,14 @@ class PageWrap extends React.Component {
 
         this.props.onUpdate([...this.props.renderConfig, data])
       },
+      onCancel: () => {
+        console.log('cancel')
+      },
     })
+  }
+
+  handleUnselect = () => {
+    events.removeAllListeners(EVENT_MOVE_BEGIN)
   }
 
   render() {
@@ -106,27 +113,31 @@ class PageWrap extends React.Component {
         onLayout={this.handleLayout}
         {...this.panResponder.panHandlers}
       >
-        {width && height ? (
-          <React.Fragment>
-            <GridComponent width={this.state.width} height={this.state.height} grid={grid} />
-            <PreviewContainer
-              onSelectElement={this.handleSelectElement}
-              onResize={this.handleResize}
-              selectedEelment={this.state.selectedElement}
-              config={this.props.renderConfig}
-              areaWidth={this.state.width}
-              areaHeight={this.state.height}
-            />
-            <CapComponent
-              onSelectRect={this.handleSelectZone}
-              onSelectComponent={this.handleAddComponent}
-              areaWidth={this.state.width}
-              areaHeight={this.state.height}
-              from={{ x: 1, y: 1 }}
-              to={{ x: 12, y: 5 }}
-            />
-          </React.Fragment>
-        ) : null}
+        <TouchableWithoutFeedback onPress={this.handleUnselect}>
+          <View style={{ flex: 1 }}>
+            {width && height ? (
+              <React.Fragment>
+                <GridComponent width={this.state.width} height={this.state.height} grid={grid} />
+                <PreviewContainer
+                  onSelectElement={this.handleSelectElement}
+                  onResize={this.handleResize}
+                  selectedEelment={this.state.selectedElement}
+                  config={this.props.renderConfig}
+                  areaWidth={this.state.width}
+                  areaHeight={this.state.height}
+                />
+                <CapComponent
+                  onSelectRect={this.handleSelectZone}
+                  onSelectComponent={this.handleAddComponent}
+                  areaWidth={this.state.width}
+                  areaHeight={this.state.height}
+                  from={{ x: 1, y: 1 }}
+                  to={{ x: 12, y: 5 }}
+                />
+              </React.Fragment>
+            ) : null}
+          </View>
+        </TouchableWithoutFeedback>
       </View>
     )
   }

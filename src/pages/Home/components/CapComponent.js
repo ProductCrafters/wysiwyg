@@ -33,6 +33,7 @@ class CapComponent extends React.Component {
       this.props.onSelectRect(coordinates)
       this.props.events.removeAllListeners(EVENT_MOVE)
       this.props.events.removeAllListeners(EVENT_MOVE_END)
+      this.setState({ display: false })
     })
   }
 

@@ -11,6 +11,12 @@ class ModalComponentsSelector extends React.Component {
     onSelect && onSelect(component)
   }
 
+  handleCancel = () => {
+    const onCancel = this.props.navigation.getParam('onCancel')
+    this.props.navigation.goBack()
+    onCancel && onCancel()
+  }
+
   render() {
     return (
       <View
@@ -22,7 +28,7 @@ class ModalComponentsSelector extends React.Component {
       >
         <Header>
           <Right>
-            <Button transparent onPress={() => this.props.navigation.goBack()}>
+            <Button transparent onPress={this.handleCancel}>
               <Text>Cancel</Text>
             </Button>
           </Right>

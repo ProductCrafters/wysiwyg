@@ -91,6 +91,7 @@ class ComponentContainer extends React.Component {
     this.interactionType = null
     events.removeAllListeners(EVENT_MOVE)
     events.removeAllListeners(EVENT_MOVE_END)
+    this.setState({ selected: false })
   }
 
   handleInteract = (type) => {
